@@ -8,10 +8,8 @@ function BearHandler() {
         Bear
             .find()
             .exec(function(err, result) {
-                if (err) {
-                    throw err;
-                }
-                res.json(result);
+                if (err) throw err;
+                res.render('bears.ejs', { bears: result });
             });
     };
 
@@ -23,16 +21,19 @@ function BearHandler() {
         // save the bear and check for errors
         bear.save(function(err) {
             if (err) res.send(err);
-            res.json({ message: 'Bear created!' });
+            //res.json({ message: 'Bear created!' });
+            res.redirect('/bear/bears');
         });
     };
 
 
     this.getBearID = function(req, res) {
-        Bear.findById(req.params.bear_id, function(err, bear) {
-            if (err) res.send(err);
-            res.json(bear);
-        });
+        Bear.findById(req.params.bear_id)
+            .exec(function(err, result) {
+                if (err) res.send(err);
+                // res.json(bear);
+                //res.render('bear-detail.ejs', { bear: result });
+            });
     };
 
     this.updateBearID = function(req, res) {

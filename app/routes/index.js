@@ -68,16 +68,24 @@ module.exports = function(app, passport) {
         // get all the bears (accessed at GET http://localhost:8080/api/bears)
         .get(bearHandler.getBears);
 
+    app.route('/bear/create-bear')
+        .get(function(req, res) {
+            res.sendFile(path + '/public/create-bear.html');
+        });
+
 
     // on routes that end in /bears/:bear_id
     // ----------------------------------------------------
     app.route('/bear/bears/:bear_id')
         // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
-        .get(bearHandler.getBearID)
+        .get(bearHandler.getBearID, function(req, res) {
+            res.sendFile(path + '/public/bears.html');
+        })
         // update the bear with this id (accessed at PUT http://localhost:8080/api/bears/:bear_id)
         .put(bearHandler.updateBearID)
         // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
         .delete(bearHandler.deleteBearID);
+
 
 
 };

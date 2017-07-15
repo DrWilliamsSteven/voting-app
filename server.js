@@ -28,7 +28,12 @@ app.use(bodyParser.json());
 
 //var router = express.Router(); // get an instance of the express Router
 
-//app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
+// set static views
+app.use(express.static(__dirname + '/app/views'));
+app.set('views', './app/views');
+//app.use(express.static(process.cwd() + '/app/views'));
+
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/app/common'));
