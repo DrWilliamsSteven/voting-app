@@ -31,8 +31,8 @@
             <p>Login to create a new bear.</p>
             <ul class="polls">
                 <% for(var i=0; i< bears.length; i++) {%>
-                    <li class="poll "><a class="bearLink">
-                        <span class="_id" ><%= bears[i].id %></span>
+                    <li class="poll "><a class="bearLink" href=<%= 'bears/' + bears[i].id %> >
+                       <!-- <span class="_id" ><%= bears[i].id %></span> -->
                         <span ><%= bears[i].name %></span>: "<span><em><%= bears[i].food %></em></span>"
                     </a></li>
                     <% } %>

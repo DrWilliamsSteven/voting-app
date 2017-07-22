@@ -63,9 +63,9 @@ module.exports = function(app, passport) {
     // ----------------------------------------------------
 
     app.route('/bear/bears')
-        // create a bear (accessed at POST http://localhost:8080/api/bears)
+        // create a bear (accessed at POST http://localhost:8080/bear/bears)
         .post(bearHandler.createBear)
-        // get all the bears (accessed at GET http://localhost:8080/api/bears)
+        // get all the bears (accessed at GET http://localhost:8080/bear/bears)
         .get(bearHandler.getBears);
 
     app.route('/bear/create-bear')
@@ -77,13 +77,11 @@ module.exports = function(app, passport) {
     // on routes that end in /bears/:bear_id
     // ----------------------------------------------------
     app.route('/bear/bears/:bear_id')
-        // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
-        .get(bearHandler.getBearID, function(req, res) {
-            res.sendFile(path + '/public/bears.html');
-        })
-        // update the bear with this id (accessed at PUT http://localhost:8080/api/bears/:bear_id)
+        // get the bear with that id (accessed at GET http://localhost:8080/bear/bears/:bear_id)
+        .get(bearHandler.getBearID)
+        // update the bear with this id (accessed at PUT http://localhost:8080/bear/bears/:bear_id)
         .put(bearHandler.updateBearID)
-        // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
+        // delete the bear with this id (accessed at DELETE http://localhost:8080/bear/bears/:bear_id)
         .delete(bearHandler.deleteBearID);
 
 

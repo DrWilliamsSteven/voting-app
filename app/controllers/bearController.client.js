@@ -2,17 +2,32 @@
 
 (function() {
 
-    var bearLinks = document.getElementsByClassName('bearLink');
+    var apiUrl = window.location.href;
+    var voteButton = document.getElementsByClassName('voteButton');
+    var voteDisplay = document.getElementsByClassName('voteDisplay');
 
-    var myFunction = function() {
-        var id = this.getElementsByClassName("_id")[0].innerHTML;
-        var apiUrl = appUrl + '/bear/bears/' + id;
-        console.log(apiUrl)
-        ajaxFunctions.ajaxRequest('GET', apiUrl);
-    };
+    function updateVoteCount(data) {
+        //console.log(data)
+        var voteObject = JSON.parse(data);
+        voteDisplay[0].innerHTML = voteObject.votes.option1;
+        voteDisplay[1].innerHTML = voteObject.votes.option2;
+        voteDisplay[2].innerHTML = voteObject.votes.option3;
+        voteDisplay[3].innerHTML = voteObject.votes.option4;
+    }
 
-    for (var i = 0; i < bearLinks.length; i++) {
-        bearLinks[i].addEventListener('click', myFunction, false);
+    for (var i = 0; i < voteButton.length; i++) {
+        voteButton[i].addEventListener('click', function() {
+
+            var id = this.id;
+            if (apiUrl[apiUrl.length - 1] === '#') {
+                var newURL = apiUrl.substring(0, apiUrl.length - 1)
+            } else {
+                newURL = apiUrl
+            }
+            newURL += '?id=' + id;
+
+            ajaxFunctions.ajaxRequest('PUT', newURL, updateVoteCount)
+        }, false);
     }
 
 })();
