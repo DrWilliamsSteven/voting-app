@@ -1,4 +1,4 @@
-require('dotenv').load();
+//require('dotenv').load();
 var mongoose = require('mongoose');
 
 // connect to mongodb
