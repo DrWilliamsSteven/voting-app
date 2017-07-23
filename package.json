@@ -19,8 +19,8 @@
     "boilerplate"
   ],
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "NODE_ENV=production node server.js",
+    "dev": "NODE_ENV=development nodemon server.js",
     "test": "test"
   },
   "author": "Steven Williams",
@@ -37,6 +37,7 @@
     "passport-github": "^1.0.0"
   },
   "devDependencies": {
+    "errorhandler": "^1.5.0",
     "nodemon": "^1.11.0"
   }
 }

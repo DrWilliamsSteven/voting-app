@@ -9,16 +9,18 @@
     function updateVoteCount(data) {
         //console.log(data)
         const voteObject = JSON.parse(data);
-        voteDisplay[0].innerHTML = voteObject.votes.option1;
-        voteDisplay[1].innerHTML = voteObject.votes.option2;
-        voteDisplay[2].innerHTML = voteObject.votes.option3;
-        voteDisplay[3].innerHTML = voteObject.votes.option4;
+        console.log(voteObject)
+
+        voteObject.options.forEach(function(element, index, array) {
+            voteDisplay[index].innerHTML = element.votes;
+        });
     }
 
     for (let i = 0; i < voteButton.length; i++) {
         voteButton[i].addEventListener('click', function() {
 
             const id = this.id;
+            const key = i;
             let newURL = "";
 
             if (apiUrl[apiUrl.length - 1] === '#') {
@@ -26,7 +28,7 @@
             } else {
                 newURL = apiUrl;
             }
-            newURL += '?id=' + id;
+            newURL += '?id=' + id + '&key=' + key;
 
             ajaxFunctions.ajaxRequest('PUT', newURL, updateVoteCount);
         }, false);
