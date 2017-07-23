@@ -2,7 +2,7 @@
 
 const path = process.cwd();
 const ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
-const PollHandler = require(path + '/app/controllers/PollHandler.server.js');
+const PollHandler = require(path + '/app/controllers/pollHandler.server.js');
 
 
 module.exports = function(app, passport) {
