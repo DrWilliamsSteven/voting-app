@@ -1,8 +1,8 @@
 'use strict';
 
-var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
-var BearHandler = require(path + '/app/controllers/BearHandler.server.js');
+const path = process.cwd();
+const ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+const PollHandler = require(path + '/app/controllers/PollHandler.server.js');
 
 
 module.exports = function(app, passport) {
@@ -15,12 +15,13 @@ module.exports = function(app, passport) {
         }
     }
 
-    var clickHandler = new ClickHandler();
-    var bearHandler = new BearHandler();
+    const clickHandler = new ClickHandler();
+    const pollHandler = new PollHandler();
 
     app.route('/')
         .get(isLoggedIn, function(req, res) {
-            res.sendFile(path + '/public/index.html');
+            //res.sendFile(path + '/public/index.html');
+            res.redirect('/poll/');
         });
 
     app.route('/login')
@@ -49,7 +50,7 @@ module.exports = function(app, passport) {
 
     app.route('/auth/github/callback')
         .get(passport.authenticate('github', {
-            successRedirect: '/',
+            successRedirect: '/poll/',
             failureRedirect: '/login'
         }));
 
@@ -59,31 +60,34 @@ module.exports = function(app, passport) {
         .delete(isLoggedIn, clickHandler.resetClicks);
 
 
-    // on routes that end in /bears
+    // on routes that end in /polls
     // ----------------------------------------------------
 
-    app.route('/bear/bears')
-        // create a bear (accessed at POST http://localhost:8080/bear/bears)
-        .post(bearHandler.createBear)
-        // get all the bears (accessed at GET http://localhost:8080/bear/bears)
-        .get(bearHandler.getBears);
+    app.route('/poll/')
+        .get(isLoggedIn, function(req, res) {
+            res.redirect('/poll/polls');
+        });
 
-    app.route('/bear/create-bear')
-        .get(function(req, res) {
-            res.sendFile(path + '/public/create-bear.html');
+    app.route('/poll/polls')
+        // create a poll (accessed at POST http://localhost:8080/poll/polls)
+        .post(isLoggedIn, pollHandler.createPoll)
+        // get all the polls (accessed at GET http://localhost:8080/poll/polls)
+        .get(isLoggedIn, pollHandler.getPolls);
+
+    app.route('/poll/create-poll')
+        .get(isLoggedIn, function(req, res) {
+            res.sendFile(path + '/public/create-poll.html');
         });
 
 
-    // on routes that end in /bears/:bear_id
+    // on routes that end in /polls/:poll_id
     // ----------------------------------------------------
-    app.route('/bear/bears/:bear_id')
-        // get the bear with that id (accessed at GET http://localhost:8080/bear/bears/:bear_id)
-        .get(bearHandler.getBearID)
-        // update the bear with this id (accessed at PUT http://localhost:8080/bear/bears/:bear_id)
-        .put(bearHandler.updateBearID)
-        // delete the bear with this id (accessed at DELETE http://localhost:8080/bear/bears/:bear_id)
-        .delete(bearHandler.deleteBearID);
-
-
+    app.route('/poll/polls/:poll_id')
+        // get the poll with that id (accessed at GET http://localhost:8080/poll/polls/:poll_id)
+        .get(isLoggedIn, pollHandler.getPollID)
+        // update the poll with this id (accessed at PUT http://localhost:8080/poll/polls/:poll_id)
+        .put(isLoggedIn, pollHandler.updatePollID)
+        // delete the poll with this id (accessed at DELETE http://localhost:8080/poll/polls/:poll_id)
+        .delete(pollHandler.deletePollID);
 
 };
