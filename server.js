@@ -12,14 +12,14 @@ const routes = require('./app/routes/index.js');
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const errorHandler = require('errorhandler');
 
 const app = express();
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(errorHandler());
+    //app.use(errorHandler());
     // additional prod environemtn configuration
 } else if (process.env.NODE_ENV === 'development') {
+    const errorHandler = require('errorhandler');
     app.use(errorHandler({ dumpExceptions: true, showStack: true }));
     require('dotenv').load();
 }
