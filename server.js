@@ -14,7 +14,7 @@ var session = require('express-session');
 const bodyParser = require('body-parser');
 
 var app = express();
-require('dotenv').load();
+//require('dotenv').load();
 require('./app/config/passport')(passport);
 
 // configure app to use bodyParser()
