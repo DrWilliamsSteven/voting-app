@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../controllers/poll-createController.client.js"></script>
 </head>
 
 <body>
@@ -29,20 +30,22 @@
         <div class="jumbotron" style="padding:40px;">
             <h2>Look at all the polls!</h2>
             <p>Login to create a new poll.</p>
-            <form action="/poll/polls" method="POST">
+            <form id='newpoll' class='pollform'>
+                <!-- action="/poll/polls" -->
+                <button id='submit' type="submit">Create poll!</button>
+                <br>
+                <br>
                 <input type="text" placeholder="Poll name" name="name">
                 <br>
                 <br>
-                <input type="text" placeholder="option1" name="option1">
-                <input type="text" placeholder="option2" name="option2">
-                <input type="text" placeholder="option3" name="option3">
-                <input type="text" placeholder="option4" name="option4">
-                <br>
-                <br>
-                <button type="submit">Create poll!</button>
+                <input type="text" placeholder="option1" name="options[]">
+                <input type="text" placeholder="option2" name="options[]">
             </form>
+            <br>
+            <br>
+            <input id="addOption" type="button" value="Add another option">
             <div>
-                <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
             </div>
         </div>
     </div>
@@ -52,7 +55,8 @@
             <p class="text-muted">&copy; 2017 <a href="https://github.com/DrWilliamsSteven" target="_blank">Steven Williams</a> </p>
         </div>
     </footer>
-    <script src="main.js"></script>
+    <!-- <script src="main.js"></script>
+ -->
 </body>
 
 </html>

@@ -17,23 +17,30 @@ function PollHandler() {
     this.createPoll = function(req, res) {
         const poll = new Poll(); // create a new instance of the Poll model
         poll.name = req.body.name; // set the polls name (comes from the request)
-        poll.food = req.body.food;
-        //poll.options = {};
-        poll.options.option1 = req.body.option1;
-        poll.options.option2 = req.body.option2;
-        poll.options.option3 = req.body.option3;
-        poll.options.option4 = req.body.option4;
 
-        // set all votes to zero
-        poll.votes.option1 = 0;
-        poll.votes.option2 = 0;
-        poll.votes.option3 = 0;
-        poll.votes.option4 = 0;
+        console.log(req.body)
+
+        let options = req.body.options;
+        poll.options = [];
+
+        options.forEach(function(element, index, array) {
+            if (element != "") {
+                let option = {
+                    name: element,
+                    votes: 0,
+                    key: index
+                }
+                poll.options.push(option);
+            }
+        })
+
+
         // save the poll and check for errors
         poll.save(function(err) {
-            if (err) res.send(err);
-            //res.json({ message: 'Poll created!' });
-            res.redirect('/poll/polls');
+            if (err) res.send('{ "message": "Poll not saved!" }');
+            //res.sendStatus(200)
+            //.json({ message: 'Poll created!' })
+            res.redirect(200, '/poll/polls');
         });
     };
 
@@ -49,16 +56,14 @@ function PollHandler() {
 
 
     this.updatePollID = function(req, res) {
-        console.log(req.query.id)
-        const param_id = 'votes.' + req.query.id;
-        const query = {};
-        query[param_id] = 1;
+        //console.log(req.query) 
 
         Poll
-            .findOneAndUpdate({ '_id': req.params.poll_id }, { $inc: query }, { new: true }) // mongodb docs use returnNewDocument
+            // mongodb docs use returnNewDocument
+            .findOneAndUpdate({ '_id': req.params.poll_id, "options.key": parseInt(req.query.key) }, { $inc: { "options.$.votes": 1 } }, { new: true })
             .exec(function(err, result) {
                 if (err) res.send(err);
-                //console.log(result)
+                console.log(result)
                 res.json(result);
             });
     };

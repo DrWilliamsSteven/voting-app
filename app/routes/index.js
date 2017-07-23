@@ -64,21 +64,21 @@ module.exports = function(app, passport) {
     // ----------------------------------------------------
 
     app.route('/poll/')
-        .get(isLoggedIn, function(req, res) {
+        .get(function(req, res) {
             res.redirect('/poll/polls');
         });
 
     app.route('/poll/polls')
         // create a poll (accessed at POST http://localhost:8080/poll/polls)
-        .post(isLoggedIn, pollHandler.createPoll)
+        .post(pollHandler.createPoll)
         // get all the polls (accessed at GET http://localhost:8080/poll/polls)
-        .get(isLoggedIn, pollHandler.getPolls);
+        .get(pollHandler.getPolls);
 
     app.route('/poll/create-poll')
-        .get(isLoggedIn, function(req, res) {
+        .get(function(req, res) {
             res.sendFile(path + '/public/create-poll.html');
-        });
-
+        })
+        .post(pollHandler.createPoll);
 
     // on routes that end in /polls/:poll_id
     // ----------------------------------------------------

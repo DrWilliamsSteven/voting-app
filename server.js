@@ -6,15 +6,24 @@
 // =============================================================================
 
 // call the packages we need
-var express = require('express');
-var routes = require('./app/routes/index.js');
+const express = require('express');
+const routes = require('./app/routes/index.js');
 
-var passport = require('passport');
-var session = require('express-session');
+const passport = require('passport');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const errorHandler = require('errorhandler');
 
-var app = express();
-//require('dotenv').load();
+const app = express();
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(errorHandler());
+    // additional prod environemtn configuration
+} else if (process.env.NODE_ENV === 'development') {
+    app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+    require('dotenv').load();
+}
+
 require('./app/config/passport')(passport);
 
 // configure app to use bodyParser()
@@ -26,13 +35,11 @@ app.use(bodyParser.json());
 // ROUTES FOR OUR API
 // =============================================================================
 
-//var router = express.Router(); // get an instance of the express Router
 
 app.set('view engine', 'ejs');
 // set static views
 app.use(express.static(__dirname + '/app/views'));
 app.set('views', './app/views');
-//app.use(express.static(process.cwd() + '/app/views'));
 
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -56,5 +63,5 @@ routes(app, passport);
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
-    console.log('Node.js listening on port ' + port + '...');
+    console.log('Node.js listening on port ' + port + '... in ' + process.env.NODE_ENV + ' mode');
 });

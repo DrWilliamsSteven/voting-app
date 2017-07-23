@@ -41,50 +41,19 @@
                     <th>Option</th>
                     <th>Votes</th>
                 </thead>
-                <tr>
-                    <td>
-                        <%= poll.options.option1 %>
-                    </td>
-                    <td class="voteDisplay">
-                        <%= poll.votes.option1 %>
-                    </td>
-                    <td>
-                        <button id='option1' class="voteButton">Vote</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <%= poll.options.option2 %>
-                    </td>
-                    <td class="voteDisplay">
-                        <%= poll.votes.option2 %>
-                    </td>
-                    <td>
-                        <button id='option2' class="voteButton">Vote</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <%= poll.options.option3 %>
-                    </td>
-                    <td class="voteDisplay">
-                        <%= poll.votes.option3 %>
-                    </td>
-                    <td>
-                        <button id='option3' class="voteButton">Vote</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <%= poll.options.option4 %>
-                    </td>
-                    <td class="voteDisplay">
-                        <%= poll.votes.option4 %>
-                    </td>
-                    <td>
-                        <button id='option4' class="voteButton">Vote</button>
-                    </td>
-                </tr>
+                <% for(var i=0; i< poll.options.length; i++) {%>
+                    <tr>
+                        <td>
+                            <%= poll.options[i].name %>
+                        </td>
+                        <td class="voteDisplay">
+                            <%= poll.options[i].votes %>
+                        </td>
+                        <td>
+                            <button class="voteButton" id=<%='option' + i %> >Vote</button>
+                        </td>
+                    </tr>
+                    <% } %>
             </table>
             <div>
                 <!-- Button to tweet    -->
