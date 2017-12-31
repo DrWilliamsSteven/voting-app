@@ -1,5 +1,5 @@
 'use strict';
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
     //your code to run since DOM is loaded and ready
     var counter = 2;
     var limit = 30;
@@ -28,12 +28,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             type: "POST", // type of action POST || GET
             //dataType: 'json', // data type
             data: data, // post data || get data
-            success: function(result) {
+            success: function (result) {
                 // you can see the result from the console                
                 console.log(result);
                 window.location.href = "/poll/";
             },
-            error: function(xhr, resp, text) {
+            error: function (xhr, resp, text) {
                 console.log(xhr, resp, text);
             }
         });

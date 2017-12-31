@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
 
     const apiUrl = window.location.href;
     const voteButton = document.getElementsByClassName('voteButton');
@@ -11,13 +11,13 @@
         const voteObject = JSON.parse(data);
         console.log(voteObject)
 
-        voteObject.options.forEach(function(element, index, array) {
+        voteObject.options.forEach(function (element, index, array) {
             voteDisplay[index].innerHTML = element.votes;
         });
     }
 
     for (let i = 0; i < voteButton.length; i++) {
-        voteButton[i].addEventListener('click', function() {
+        voteButton[i].addEventListener('click', function () {
 
             const id = this.id;
             const key = i;

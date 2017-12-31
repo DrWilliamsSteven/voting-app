@@ -4,17 +4,19 @@ const Poll = require('../models/poll.js');
 
 function PollHandler() {
 
-    this.getPolls = function(req, res) {
+    this.getPolls = function (req, res) {
         Poll
             .find()
-            .exec(function(err, result) {
+            .exec(function (err, result) {
                 if (err) throw err;
-                res.render('polls.ejs', { polls: result });
+                res.render('polls.ejs', {
+                    polls: result
+                });
             });
     };
 
 
-    this.createPoll = function(req, res) {
+    this.createPoll = function (req, res) {
         const poll = new Poll(); // create a new instance of the Poll model
         poll.name = req.body.name; // set the polls name (comes from the request)
 
@@ -23,7 +25,7 @@ function PollHandler() {
         let options = req.body.options;
         poll.options = [];
 
-        options.forEach(function(element, index, array) {
+        options.forEach(function (element, index, array) {
             if (element != "") {
                 let option = {
                     name: element,
@@ -36,7 +38,7 @@ function PollHandler() {
 
 
         // save the poll and check for errors
-        poll.save(function(err) {
+        poll.save(function (err) {
             if (err) res.send('{ "message": "Poll not saved!" }');
             //res.sendStatus(200)
             //.json({ message: 'Poll created!' })
@@ -45,23 +47,34 @@ function PollHandler() {
     };
 
 
-    this.getPollID = function(req, res) {
+    this.getPollID = function (req, res) {
         Poll.findById(req.params.poll_id)
-            .exec(function(err, result) {
+            .exec(function (err, result) {
                 if (err) res.send(err);
                 //res.json(poll);
-                res.render('poll-detail.ejs', { poll: result });
+                res.render('poll-detail.ejs', {
+                    poll: result
+                });
             });
     };
 
 
-    this.updatePollID = function(req, res) {
+    this.updatePollID = function (req, res) {
         //console.log(req.query) 
 
         Poll
             // mongodb docs use returnNewDocument
-            .findOneAndUpdate({ '_id': req.params.poll_id, "options.key": parseInt(req.query.key) }, { $inc: { "options.$.votes": 1 } }, { new: true })
-            .exec(function(err, result) {
+            .findOneAndUpdate({
+                '_id': req.params.poll_id,
+                "options.key": parseInt(req.query.key)
+            }, {
+                $inc: {
+                    "options.$.votes": 1
+                }
+            }, {
+                new: true
+            })
+            .exec(function (err, result) {
                 if (err) res.send(err);
                 console.log(result)
                 res.json(result);
@@ -69,10 +82,14 @@ function PollHandler() {
     };
 
 
-    this.deletePollID = function(req, res) {
-        Poll.remove({ _id: req.params.poll_id }, function(err, poll) {
+    this.deletePollID = function (req, res) {
+        Poll.remove({
+            _id: req.params.poll_id
+        }, function (err, poll) {
             if (err) res.send(err);
-            res.json({ message: 'Successfully deleted poll' });
+            res.json({
+                message: 'Successfully deleted poll'
+            });
         });
     };
 
